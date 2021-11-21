@@ -25,9 +25,7 @@
                         <li class="nav-item active">
                             <a class="nav-link" aria-current="page" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -36,7 +34,8 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{% url "store:all_animals" %}">All</a></li>
                                 {% for c in categories %}
-                                <li {% if category.slug == c.slug %}class="selected" {% endif %}>
+                               {% comment %} <li {% if category.slug == c.slug %}class="selected" {% endif %}>{% endcomment %}
+                                    <li>
                                     <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a>
                                 </li>
                                 {% endfor %}

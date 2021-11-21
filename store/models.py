@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -10,58 +11,64 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'categories'
 
+    def get_absolute_url(self):
+        return reverse('store:category_list', args=[self.slug])
+
     def __str__(self):
         return self.name
 
 
 class Animal(models.Model):
     SEX_CHOICES = (
-        ('f', 'Female',),
-        ('m', 'Male',),
-        ('u', 'Unknown',),
+        ('Female', 'Female',),
+        ('Male', 'Male',),
+        ('Unknown', 'Unknown',),
     )
     LOCATION_CHOICES = (
-        ('tl', 'Tallinn'),
-        ('ta', 'Tartu'),
-        ('ra', 'Rakvere'),
-        ('na', 'Narva'),
-        ('si', 'Sillamäe'),
-        ('ku', 'Kuuresaare'),
-        ('ha', 'Haapsalu'),
-        ('pa', 'Pärnu'),
-        ('ko', 'Kohtla-Järve'),
-        ('va', 'Valga'),
-        ('po', 'Põlva'),
-        ('to', 'Toila'),
+        ('Tallinn', 'Tallinn'),
+        ('Tartu', 'Tartu'),
+        ('Rakvere', 'Rakvere'),
+        ('Narva', 'Narva'),
+        ('Sillamae', 'Sillamäe'),
+        ('Kuuresaare', 'Kuuresaare'),
+        ('Haapsalu', 'Haapsalu'),
+        ('Parnu', 'Pärnu'),
+        ('Kohtla-jarve', 'Kohtla-Järve'),
+        ('Valga', 'Valga'),
+        ('Polva', 'Põlva'),
+        ('Toila', 'Toila'),
+        ('EU', 'EU'),
+        ('Estonia', 'Estonia'),
+        ('Non-EU', 'Non-EU'),
     )
     FUR_PATTERN_CHOICES = (
-        ('t', 'Tabby'),
-        ('s', 'Solid'),
-        ('b', 'Bicolor'),
-        ('t', 'Tortoiseshell'),
-        ('c', 'Colorpoint'),
+        ('Tabby', 'Tabby'),
+        ('Solid', 'Solid'),
+        ('Bicolor', 'Bicolor'),
+        ('Tortoiseshell', 'Tortoiseshell'),
+        ('Colorpoint', 'Colorpoint'),
     )
     FUR_LENGTH_CHOICES = (
-        ('l', 'Long'),
-        ('s', 'Short'),
-        ('c', 'Curly'),
-        ('h', 'Hairless'),
+        ('Long', 'Long'),
+        ('Short', 'Short'),
+        ('Curly', 'Curly'),
+        ('Hairless', 'Hairless'),
     )
 
     category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, related_name='product_creator', on_delete=models.CASCADE)
     animal_name = models.CharField(max_length=255)
-    fur_pattern = models.CharField(max_length=1, choices=FUR_PATTERN_CHOICES, default="")
+    fur_pattern = models.CharField(max_length=15, choices=FUR_PATTERN_CHOICES, default="")
     fur_color = models.CharField(max_length=255, default='unknown')
-    fur_length = models.CharField(max_length=1, choices=FUR_LENGTH_CHOICES)
+    fur_length = models.CharField(max_length=15, choices=FUR_LENGTH_CHOICES)
     age = models.DecimalField(max_digits=5, decimal_places=2)
-    sex = models.CharField(max_length=1, choices=SEX_CHOICES)
-    location = models.CharField(max_length=2, choices=LOCATION_CHOICES)
+    sex = models.CharField(max_length=15, choices=SEX_CHOICES)
+    location = models.CharField(max_length=15, choices=LOCATION_CHOICES)
     description = models.TextField(blank=True)
     special_needs = models.TextField(blank=True)
     image = models.ImageField(upload_to='images/')
     slug = models.SlugField(max_length=255)
-    price = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(15.0)],)
+    price = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(15.0)])
     is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -69,6 +76,9 @@ class Animal(models.Model):
     class Meta:
         verbose_name_plural = "Animals"
         ordering = ('-created',)
+
+    def get_absolute_url(self):
+        return reverse('store:animal_detail', args=[self.slug])
 
     def __str__(self):
         return self.animal_name

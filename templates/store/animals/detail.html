@@ -1,0 +1,39 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}
+{{ animal.name }}
+{% endblock %}
+{% block content %}
+<div class="container">
+    <main class="pt-5">
+        <div class="row g-3">
+            <div class="col-md-5 col-lg-5 order-md-first bg-light">
+                <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ animal.image.url }}">
+            </div>
+            <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
+                <h1 class="mb-0 h4">{{ animal.animal_name }}</h1>
+                <p><span class="fw-bold">Age: </span>{{ animal.age }} years </p>
+                <p><span class="fw-bold">Sex: </span>{{ animal.sex }}</p>
+                <p><span class="fw-bold">Fur pattern: </span> {{ animal.fur_pattern }}</p>
+                <p><span class="fw-bold">Fur Color: </span>{{ animal.fur_color }}</p>
+                <p><span class="fw-bold">Fur length: </span>{{ animal.fur_length }}</p>
+                <p><span class="fw-bold">Animal location: </span>{{ animal.location }}</p>
+                <p><span class="fw-bold">Fluff description: </span>{{ animal.description}}</p>
+                <p><span class="fw-bold">Special needs: </span>{{ animal.special_needs}}</p>
+                <div class="border">
+                    <div class="col border-bottom">
+                        <div class="row p-3">
+                            <div class="col-6">Price</div>
+                            <div class="col-6 text-end"><span class="h4 fw-bold">€ {{ animal.price }}</span></div>
+                        <div class="col">
+                            <div class="row p-3">
+                                <div class="col-6 text-end"><button type="button" class="btn btn-secondary btn-lg">Adopt</button></div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+    </main>
+
+</div>
+{% endblock %}
