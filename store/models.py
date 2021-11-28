@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.urls import reverse
 
+class AnimalManager(models.Manager):
+    def get_queryset(self):
+        return super(AnimalManager,self).get_queryset().filter(is_active=True)
 
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
@@ -55,8 +58,8 @@ class Animal(models.Model):
         ('Hairless', 'Hairless'),
     )
 
-    category = models.ForeignKey(Category, related_name='product', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, related_name='product_creator', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='animal', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='animal_creator', on_delete=models.CASCADE)
     animal_name = models.CharField(max_length=255)
     fur_pattern = models.CharField(max_length=15, choices=FUR_PATTERN_CHOICES, default="")
     fur_color = models.CharField(max_length=255, default='unknown')
@@ -66,12 +69,14 @@ class Animal(models.Model):
     location = models.CharField(max_length=15, choices=LOCATION_CHOICES)
     description = models.TextField(blank=True)
     special_needs = models.TextField(blank=True)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/', default='images/default.jpg')
     slug = models.SlugField(max_length=255)
     price = models.FloatField(validators=[MinValueValidator(0.0), MaxValueValidator(15.0)])
     is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+    animals = AnimalManager()
 
     class Meta:
         verbose_name_plural = "Animals"
