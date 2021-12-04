@@ -21,7 +21,7 @@
 
             <div class="d-flex d-flex-inline justify-content-between">
             <div><span class="h3">€{{ animal.price }}</span><p class="text-muted">includes tax</p></div>
-                   <div class="">
+               <div class="">
                                 <label for="select">Qty</label>
                                 <select id="select" class="h6" style="width:50px;height:40px;">
                                     <option value="1">1</option>
@@ -35,12 +35,14 @@
             <hr>
             <button type="button" id="add-button" value="{{animal.id}}" class="btn btn-info fw500">Add to catbox</button>
             <button type="button" id="add-button" value="{{animal.id}}" class="btn btn-secondary fw500">Add to Favorites</button>
+               {% if user.is_superuser %}
+                <a type="button" href="{%  url "store:update_animal"  animal.slug %}" value="{{animal.id}}" class="btn btn-warning fw500">Update animal</a>
+                <a type="button" href="{%  url "store:delete_animal" animal.slug %}" value="{{animal.id}}" class="btn btn-danger fw500">Delete animal</a>
+               {% endif %}
             </div>
         </div>
 
         <div class="col-md-7 col-lg-7 p-0">
-
-
 
             <div class="card mb-3 border-0">
             <div class="row g-0">
@@ -53,6 +55,16 @@
                 </div>
             </div>
             </div>
+
+            <div><p><b>Age:</b> {{ animal.age }}</p>
+            <p><b>Sex:</b> {{ animal.sex }}</p>
+            <p><b>Fur pattern:</b> {{ animal.fur_pattern}}</p>
+            <p><b>Fur color:</b> {{ animal.fur_color }}</p>
+            <p><b>Fur length:</b> {{ animal.fur_length }}</p>
+            <p><b>Special needs:</b> {{ animal.special_needs }}</p>
+            <p><b>Location:</b> {{ animal.location }}</p></div>
+
+
 
 
 </div>
