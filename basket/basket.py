@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from django.http import JsonResponse
+
 from store.models import Animal
 
 
@@ -14,11 +16,14 @@ class Basket():
 
 
     def add(self, animal, qty):
-        animal_id = animal.id
-        if animal_id not in self.basket:
-            self.basket[animal_id] = {'price': str(animal.price), 'qty':int(qty)}
+        animal_id = str(animal.id)
 
-        self.session.modified = True
+        if animal_id in self.basket:
+            self.basket[animal_id]['qty'] = qty
+        else:
+            self.basket[animal_id] = {'price': str(animal.price), 'qty': qty}
+
+        self.save()
 
 
     def __iter__(self):
@@ -37,5 +42,22 @@ class Basket():
     def __len__(self):
         return sum(item['qty'] for item in self.basket.values())
 
+    def update(self, animal, qty):
+        animal_id = str(animal)
+        if animal_id in self.basket:
+            self.basket[animal_id]['qty'] = qty
+        self.save()
+
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+
+    def delete(self, animal):
+        animal_id = str(animal)
+
+        if animal_id in self.basket:
+            del self.basket[animal_id]
+            print(animal_id)
+            self.save()
+
+    def save(self):
+        self.session.modified = True
