@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -59,7 +60,7 @@ class Animal(models.Model):
     )
 
     category = models.ForeignKey(Category, related_name='animal', on_delete=models.CASCADE)
-    created_by = models.ForeignKey(User, related_name='animal_creator', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='animal_creator', on_delete=models.CASCADE)
     animal_name = models.CharField(max_length=255)
     fur_pattern = models.CharField(max_length=15, choices=FUR_PATTERN_CHOICES, default="")
     fur_color = models.CharField(max_length=255, default='unknown')

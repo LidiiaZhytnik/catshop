@@ -4,51 +4,64 @@
 {{ animal.name }}
 {% endblock %}
 {% block content %}
-<div class="container">
-    <main class="pt-5">
+
+
+<main class="pt-2">
+
+  <div class="container" style="max-width: 1000px">
+
         <div class="row g-3">
-            <div class="col-md-5 col-lg-5 order-md-first bg-light">
-                <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ animal.image.url }}">
-            </div>
-            <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
-                <h1 class="mb-0 h4">{{ animal.animal_name }}</h1>
-                <p><span class="fw-bold">Age: </span>{{ animal.age }} years </p>
-                <p><span class="fw-bold">Sex: </span>{{ animal.sex }}</p>
-                <p><span class="fw-bold">Fur pattern: </span> {{ animal.fur_pattern }}</p>
-                <p><span class="fw-bold">Fur Color: </span>{{ animal.fur_color }}</p>
-                <p><span class="fw-bold">Fur length: </span>{{ animal.fur_length }}</p>
-                <p><span class="fw-bold">Animal location: </span>{{ animal.location }}</p>
-                <p><span class="fw-bold">Fluff description: </span>{{ animal.description}}</p>
-                <p><span class="fw-bold">Special needs: </span>{{ animal.special_needs}}</p>
-                <div class="border">
-                    <div class="col border-bottom">
-                        <div class="row p-3">
-                            <div class="col-6">Adoption price</div>
-                            <div class="col-6 text-end"><span class="h4 fw-bold">€{{ animal.price }}</span></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="row p-3">
-                            <div class="col-6">
+
+            <div class="col-12 d-flex justify-content-between">
+
+        </div>
+
+        <div class="col-md-5 ps-3 col-lg-5 order-md-last p-0 order-1">
+            <div class="d-grid gap-2">
+
+            <div class="d-flex d-flex-inline justify-content-between">
+            <div><span class="h3">€{{ animal.price }}</span><p class="text-muted">includes tax</p></div>
+                   <div class="">
                                 <label for="select">Qty</label>
-                                <select id="select">
+                                <select id="select" class="h6" style="width:50px;height:40px;">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                 </select>
-                            </div>
-                            <div class="col-6 text-end">
-<button type="button" id="add-button" value="{{animal.id}}" class="btn btn-secondary btn-sm">Add to my Catbox</button></div>
+                    </div>
+            </div>
 
-                        </div>
+            <hr>
+            <button type="button" id="add-button" value="{{animal.id}}" class="btn btn-info fw500">Add to catbox</button>
+            <button type="button" id="add-button" value="{{animal.id}}" class="btn btn-secondary fw500">Add to Favorites</button>
+            </div>
+        </div>
+
+        <div class="col-md-7 col-lg-7 p-0">
+
+
+
+            <div class="card mb-3 border-0">
+            <div class="row g-0">
+                <div class="col-md-12">
+                    <div class="card-body p-1">
+                        <h1 class="mb-0 h2 pe-4 pb-4">{{ animal.animal_name }}</h1>
+                        <div class="bg-light"><img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ animal.image.url }}"> </div>
                     </div>
-                    </div>
+
                 </div>
             </div>
-    </main>
+            </div>
+
 
 </div>
+
+    </div>
+  </div>
+</main>
+
+
     <script>
      $(document).on('click', '#add-button', function (e) {
          e.preventDefault();
